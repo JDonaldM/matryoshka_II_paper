@@ -256,7 +256,7 @@ if os.path.isfile(save_dir+chain_fname):
     i=0
     while os.path.isfile(save_dir+chain_fname):
         i += 1
-        MAPest_fname = "chain--EFTEMU_z-{z}_V-{V}_kmin-{k1}_kmax-{k2}_{i}.npy"\
+        chain_fname = "chain--EFTEMU_z-{z}_V-{V}_kmin-{k1}_kmax-{k2}_{i}.npy"\
                        .format(z=redshift, V=volume, k1=kmin, k2=kmax, i=i)
 
 # Save chain.
