@@ -1,7 +1,5 @@
 import matryoshka.emulator as MatEmu
 import numpy as np
-import matplotlib.pyplot as plt
-import time
 from scipy.optimize import minimize
 from scipy.stats import norm
 import zeus
@@ -132,7 +130,7 @@ def log_prior(theta, ng, cosmo_bounds):
            +norm.logpdf(stoch[:,1], loc=0, scale=2)\
            +norm.logpdf(stoch[:,2], loc=0, scale=2)
 
-def log_like(theta, kobs, obs, icov):
+def log_like(theta, kobs, obs, icov, ng):
     # Oc, Ob, h, As, ns
     cosmo = theta[:,:5]
     # b1, c2, b3, c4, cct, cr1, cr2
@@ -169,7 +167,7 @@ def log_prob(theta, kobs, obs, icov, ng, cosmo_bounds, fb, fixed_vals):
     lp = log_prior(theta, ng, cosmo_bounds)
     
     # Evaluate likelihood
-    ll = log_like(theta, kobs, obs, icov)
+    ll = log_like(theta, kobs, obs, icov, ng)
     
     return ll+lp
 
