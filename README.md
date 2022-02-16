@@ -1,6 +1,6 @@
 # [matryoshka](https://github.com/JDonaldM/Matryoshka) II: Accelerating Effective Field Theory Analyses of the Galaxy Power Spectrum
 
-This is the accompanying repository to the paper Donald-McCann, Koyama, Beutler (2022). It contains all mock data, all MCMC chains, and all importance weights that form the results of the paper. It also includes all the `Python` code needed to conduct the analyses presented in the paper. Most of this code is presented in the form of Jupyter notebooks.
+This is the accompanying repository to the paper [Donald-McCann, Koyama, Beutler (2022)](https://arxiv.org/abs/2202.07557). It contains all mock data, all MCMC chains, and all importance weights that form the results of the paper. It also includes all the `Python` code needed to conduct the analyses presented in the paper. Most of this code is presented in the form of Jupyter notebooks.
 
 ## Requirements
 
@@ -39,13 +39,13 @@ The following packages (and their corresponding dependencies) are required to ru
 
 ## Attribution
 
-Please cite Donald-McCann, Koyama, Beutler (2022) if you found this code useful in your research:
+Please cite [Donald-McCann, Koyama, Beutler (2022)](https://arxiv.org/abs/2202.07557) if you found this code useful in your research:
 
 ```bash
 @article{donald-mccann2022matryoshkaII,
   title={matryoshka II: Accelerating Effective Field Theory Analyses of the Galaxy Power Spectrum},
   author={Donald-McCann, Jamie and Koyama, Kazuya and Beutler, Florian},
-  journal={arXiv preprint arXiv:xxxx.xxxxx},
+  journal={arXiv preprint arXiv:2202.07557},
   year={2022}
 }
 ```
