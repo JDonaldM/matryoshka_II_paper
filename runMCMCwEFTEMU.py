@@ -40,15 +40,18 @@ else:
 
 # Define the underlying true cosmology.
 cosmo_true = np.array([0.11933, 0.02242, 0.6766, 3.047, 0.9665])
-ng = 3e-4
+ng_LOWZ = 4e-4
+ng_CMASS = 4.5e-4
 fb_true = cosmo_true[1]/(cosmo_true[0]+cosmo_true[1])
 
 # Check input redshift and define relelvant true bias parameters.
 redshift = float(args.redshift)
 if redshift == 0.38:
     bs_true = np.array([1.73, 1.0, -1.0, 0.0, 0.2, -10.03, 0., 0., 0., -2.1])
+    ng = ng_LOWZ
 elif redshift == 0.51 or redshift == 0.61:
     bs_true = np.array([2.22, 1.2, 0.1, 0.0, 0.4, -7.7, 0., 0., 0., -3.7])
+    ng = ng_CMASS
 else:
     raise ValueError("Please specify a relevant redshift. Can be 0.38, 0.51, or 0.61")
 
