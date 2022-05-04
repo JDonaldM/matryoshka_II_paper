@@ -249,7 +249,7 @@ sampler.run_mcmc(init_pos, 50000, progress=True, callbacks=[cb0, cb1])
 
 # Discard burn-in and thin chain.
 taus = cb0.estimates
-flat_chain = sampler.get_chain(discard=5*int(taus[-1]), flat=True, thin=int(taus[-1]))
+flat_chain = sampler.get_chain(discard=5*int(taus[-1]), flat=True, thin=int(taus[-1]/2))
 
 # Check if previous results exist.
 chain_fname = "chain--EFTEMU_z-{z}_V-{V}_kmin-{k1}_kmax-{k2}_0.npy".format(z=redshift, V=volume, k1=kmin, k2=kmax)
@@ -262,4 +262,4 @@ if os.path.isfile(save_dir+chain_fname):
 
 # Save chain.
 np.save(save_dir+chain_fname, flat_chain)
-print("MAP saved: {fname}".format(fname=chain_fname))
+print("chain saved: {fname}".format(fname=chain_fname))
