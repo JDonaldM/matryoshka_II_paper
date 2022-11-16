@@ -12,6 +12,9 @@ The following packages (and their corresponding dependencies) are required to ru
 - [corner](https://github.com/dfm/corner.py) (2.2.1)
 - [GetDist](https://github.com/cmbant/getdist) (1.2.1)
 
+## Changes in v2.0.0
+During the review process of the paper there were significant changes made to this repo. Almost every file has been change, although the conclusions drawn in the paper remain the same. The most significant change involved calculating importance weights for more than one of the mock analysis setups. As such the code related to this has been change from a notebook to a `Python` script.
+
 ## Running order
 
 **Setup**
@@ -19,23 +22,23 @@ The following packages (and their corresponding dependencies) are required to ru
 1. [./notebooks/gen_training_cosmo.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/gen_training_cosmo.ipynb): This notebook will generate some samples from the five parameter LCDM training space. 
 2. [Matryoshka/scripts/genEFTEMUtraindata.py](https://github.com/JDonaldM/Matryoshka/blob/main/scripts/genEFTEMUtraindata.py): This will calculate the P<sub>n</sub> components that will be emulated. To run the full set of analyses this will need to be run for z = [0.38, 0.51, 0.61]. **This will take some time!** It is by far the most expensive step, it took ~8hr per redshift on an old i5.
 3. [Matryoshka/scripts/trainEFTEMUcomponents.py](https://github.com/JDonaldM/Matryoshka/blob/main/scripts/trainEFTEMUcomponents.py): This will train all the component emulators of the `EFTEMU`. This will again need to be done for each redshift. Should take ~30min per redshift.
+4. [./notebooks/make_mocks_lin_and_loops.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/make_mocks_lin_and_loops.ipynb): This will calculate the P<sub>n</sub> components for the mock data.
+5. [./notebooks/make_mocks_cov_and_poles.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/make_mocks_cov_and_poles.ipynb): This will calculate the mock multipoles and Gaussian covariances.
 
 **Analysis**
 
-4. [./notebooks/make_mocks_lin_and_loops.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/make_mocks_lin_and_loops.ipynb): This will calculate the P<sub>n</sub> components for the mock data.
-5. [./notebooks/make_mocks_cov_and_poles.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/make_mocks_cov_and_poles.ipynb): This will calculate the mock multipoles and Gaussian covariances.
-6. [runMCMCwEFTEMU.py](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/runMCMCwEFTEMU.py): This will run an MCMC with the `EFTEMU`. This needs to be done for each mock with V<sub>s</sub> = 3700 Mpc *h*<sup>-1</sup>, and for the mock at z = 0.61 for every mock volume. Should take ~30mins per MCMC. The importance sampling also requires multiple MCMCs at z = 0.61 with V<sub>s</sub> = 3700 Mpc *h*<sup>-1</sup> to boost the effective sample size. We provide a [notebook](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/mcmc_z0.61_v3700_EFTEMU.ipynb) that explains some of the code in the script.
-7. [./notebooks/pybird_importance_likes.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/pybird_importance_likes.ipynb): This notebook will compute the `PyBird` likelihood for samples in a thinned `EFTEMU` chain. Should take ~1.5hr per chain.
-8. [./notebooks/importance_z0.61_Vc3700_Vi5000.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/importance_z0.61_Vc3700_Vi5000.ipynb): This notebook will compute the importance weights.
+6. [./scripts/runMCMCwEFTEMU.py](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/scripts/runMCMCwEFTEMU.py): This will run an MCMC with the `EFTEMU`. This needs to be done for every mock setup. We provide a [notebook](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/mcmc_z0.61_v3700_EFTEMU.ipynb) that explains some of the code in the script.
+7. [./scripts/pybird_importance_likes_v2.py](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/scripts/pybird_importance_likes_v2.py): This `Python` script will calculate `PyBird` likelihoods for a 'chunk' of samples from a chain run with the `EFTEMU`. Each chunk is 10000 samples. Likelihoods for at least one chunk need to be calculated  
+8. [./scripts/compute_weights.py](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/scripts/compute_weights.py): This script will compute the importance weights. Needs to be done for each set of `PyBird` likelihoods.
 9. [./notebooks/performance.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/performance.ipynb): This notebook compares the compuational performance of the `EFTEMU` to `PyBird`.
 
 **Plotting**
 
-10. [./notebooks/per_err.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/per_err.ipynb): This notebook plots the power spectrum level prediction accuracy. Figure 2.
-11. [./notebooks/map_plot_V3700.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/map_plot_V3700.ipynb): This notebook plots the MAP predictions. Figure 3.
-12. [./notebooks/nice_corners_samples.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/nice_corners_samples.ipynb): This notebook produces the corner plot for the posteriors at each redshift. Figure 4.
-13. [./notebooks/violins--volumes.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/violins--volumes.ipynb): This notebook produces the violin plot for the marginalised 1D posteriors with each V<sub>s</sub>. Figure 5.
-14. [./notebooks/nice_corners_pybird.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/nice_corners_pybird.ipynb): This notebook compares the `PyBird` and `EFTEMU` posteriors. Figure 6.
+10. [./notebooks/per_err.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/per_err.ipynb): This notebook plots the power spectrum level prediction accuracy. Figure 3.
+11. [./notebooks/isnr_P0.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/isnr_P0.ipynb): This notebook calculates the inverse signal-to-noise ratio for the monopole for each of the mock volumes. Figure 4.
+12. [./notebooks/map_plot_V5000.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/map_plot_V5000.ipynb): This notebook plots the MAP predictions. Figure 5.
+13. [./notebooks/nice_corners_samples.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/nice_corners_samples.ipynb): This notebook produces the corner plot for the posteriors at each redshift. Figure 6.
+14. [./notebooks/nice_corners--z-0.38.ipynb](https://github.com/JDonaldM/matryoshka_II_paper/blob/main/notebooks/nice_corners--z-0.38.ipynb): This notebook compares the `PyBird` and `EFTEMU` posteriors. Figures 7 and 8.
 
 ## Attribution
 

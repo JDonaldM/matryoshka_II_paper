@@ -3,3 +3,6 @@
 __pycache__
 .ipynb_checkpoints
 notebooks/archive/*
+sciama_code/*
+plots/archive/*
+results/archive/*
